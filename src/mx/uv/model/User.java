@@ -1,6 +1,6 @@
-package mx.uv.modelo;
+package mx.uv.model;
 
-public class Usuario {
+public class User {
     private int id;
     private String nombres;
     private String apellidos;
@@ -11,9 +11,9 @@ public class Usuario {
     private int codigoPostal;
     private int numeroCasa;
     private boolean estadoActivo;
-    public Usuario() {}
+    public User() {}
 
-    public Usuario(int id, String nombres, String apellidos, String telefono, String email, String ciudad, String calle, int codigoPostal, int numeroCasa, boolean estadoActivo) {
+    public User(int id, String nombres, String apellidos, String telefono, String email, String ciudad, String calle, int codigoPostal, int numeroCasa, boolean estadoActivo) {
         this.id = id;
         this.nombres = nombres;
         this.apellidos = apellidos;
@@ -34,27 +34,27 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getNombres() {
+    public String getFirstName() {
         return nombres;
     }
 
-    public void setNombres(String nombres) {
+    public void setFirstName(String nombres) {
         this.nombres = nombres;
     }
 
-    public String getApellidos() {
+    public String getLastName() {
         return apellidos;
     }
 
-    public void setApellidos(String apellidos) {
+    public void setLastName(String apellidos) {
         this.apellidos = apellidos;
     }
 
-    public String getTelefono() {
+    public String getPhone() {
         return telefono;
     }
 
-    public void setTelefono(String telefono) {
+    public void setPhone(String telefono) {
         this.telefono = telefono;
     }
 
@@ -66,43 +66,43 @@ public class Usuario {
         this.email = email;
     }
 
-    public String getCiudad() {
+    public String getCity() {
         return ciudad;
     }
 
-    public void setCiudad(String ciudad) {
+    public void setCity(String ciudad) {
         this.ciudad = ciudad;
     }
 
-    public String getCalle() {
+    public String getStreet() {
         return calle;
     }
 
-    public void setCalle(String calle) {
+    public void setStreet(String calle) {
         this.calle = calle;
     }
 
-    public int getCodigoPostal() {
+    public int getZipCode() {
         return codigoPostal;
     }
 
-    public void setCodigoPostal(int codigoPostal) {
+    public void setZipCode(int codigoPostal) {
         this.codigoPostal = codigoPostal;
     }
 
-    public int getNumeroCasa() {
+    public int getHouseNumber() {
         return numeroCasa;
     }
 
-    public void setNumeroCasa(int numeroCasa) {
+    public void setHouseNumber(int numeroCasa) {
         this.numeroCasa = numeroCasa;
     }
 
-    public boolean isEstadoActivo() {
+    public boolean isActive() {
         return estadoActivo;
     }
 
-    public void setEstadoActivo(boolean estadoActivo) {
+    public void setActive(boolean estadoActivo) {
         this.estadoActivo = estadoActivo;
     }
 }

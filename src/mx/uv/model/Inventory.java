@@ -1,14 +1,14 @@
-package mx.uv.modelo;
+package mx.uv.model;
 
-public class Inventario {
+public class Inventory {
     private int id;
     private int cantidad;
     private String tipo;
 
-    public Inventario() {
+    public Inventory() {
     }
 
-    public Inventario(int id, int cantidad, String tipo) {
+    public Inventory(int id, int cantidad, String tipo) {
         this.id = id;
         this.cantidad = cantidad;
         this.tipo = tipo;
@@ -22,19 +22,19 @@ public class Inventario {
         this.id = id;
     }
 
-    public int getCantidad() {
+    public int getQuantity() {
         return cantidad;
     }
 
-    public void setCantidad(int cantidad) {
+    public void setQuantity(int cantidad) {
         this.cantidad = cantidad;
     }
 
-    public String getTipo() {
+    public String getType() {
         return tipo;
     }
 
-    public void setTipo(String tipo) {
+    public void setType(String tipo) {
         this.tipo = tipo;
     }
 }

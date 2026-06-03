@@ -1,14 +1,14 @@
-package mx.uv.modelo;
+package mx.uv.model;
 
-public enum Roles {
+public enum Role {
     ADMINISTRADOR("Administrador"),
     CAJERO("Cajero"),;
     private String descripcion;
 
-    private Roles(String descripcion) {
+    private Role(String descripcion) {
         this.descripcion = descripcion;
     }
-    public String getDescripcion() {
+    public String getDescription() {
         return descripcion;
     }
 }
