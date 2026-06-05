@@ -13,7 +13,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class OrderController {
-    private final OrderDao dao = new OrderDaoImpl();
+    private final OrderDaoImpl dao = new OrderDao();
 
     public int createOrder(int idEmpleado, int idCliente) {
         try {

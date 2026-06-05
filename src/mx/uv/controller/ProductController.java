@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class ProductController {
-    private final ProductDao dao = new ProductDaoImpl();
+    private final ProductDaoImpl dao = new ProductDao();
 
     public boolean save(SaleProduct p, boolean esNuevo) {
         try {

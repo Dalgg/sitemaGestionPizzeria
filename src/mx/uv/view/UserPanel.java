@@ -11,6 +11,7 @@ import javafx.stage.Stage;
 import mx.uv.controller.SessionController;
 import mx.uv.controller.UserService;
 import mx.uv.model.Employee;
+import mx.uv.model.Role;
 import mx.uv.model.User;
 
 import java.util.List;
@@ -31,6 +32,11 @@ public class UserPanel extends VBox {
         this.owner = owner;
         setSpacing(16);
         setPadding(new Insets(0));
+        Employee current = SessionController.getInstance().getCurrentEmployee();
+        if (current == null || current.getRole() != Role.ADMINISTRADOR) {
+            mostrarAccesoDenegado();
+            return;
+        }
         construir();
         cargar();
     }
@@ -222,5 +228,16 @@ public class UserPanel extends VBox {
                 cargar();
             }
         });
+    }
+
+    private void mostrarAccesoDenegado() {
+        VBox denied = new VBox(20);
+        denied.setAlignment(Pos.CENTER);
+        denied.setPadding(new Insets(40));
+        Label lbl = new Label("⛔ Acceso restringido\nSolo administradores pueden gestionar usuarios.");
+        lbl.setStyle("-fx-font-size:16;-fx-text-fill:" + UiStyles.ROJO + ";-fx-alignment:center;");
+        lbl.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        denied.getChildren().add(lbl);
+        getChildren().add(denied);
     }
 }

@@ -37,7 +37,7 @@ public class UserDialog extends Dialog<Boolean> {
         this.esCliente = esCliente;
         initOwner(owner);
         initModality(Modality.APPLICATION_MODAL);
-        setTitle(usuario == null ? "Nuevo User" : "Editar User");
+        setTitle(usuario == null ? "Nuevo usuario" : "Editar usuario");
         setResizable(true);
         construir();
         if (usuario != null) prellenar();
@@ -60,8 +60,8 @@ public class UserDialog extends Dialog<Boolean> {
         cmbCiudad.setMaxWidth(Double.MAX_VALUE);
         cmbCiudad.setStyle(UiStyles.CAMPO);
 
-        cmbTipo.getItems().addAll("Cliente","Employee");
-        cmbTipo.setValue(esCliente ? "Cliente" : "Employee");
+        cmbTipo.getItems().addAll("Cliente","Empleado");
+        cmbTipo.setValue(esCliente ? "Cliente" : "Empleado");
         cmbTipo.setMaxWidth(Double.MAX_VALUE);
         cmbTipo.setStyle(UiStyles.CAMPO);
 
@@ -72,7 +72,7 @@ public class UserDialog extends Dialog<Boolean> {
 
         VBox secDireccion = seccion("DIRECCIÓN",
                 row1ancho("Calle", txtCalle, "Número", txtNumero),
-                row3(campo("Ciudad", cmbCiudad), campo("Tipo de User", cmbTipo), campo("Estatus", cmbEstatus))
+                row3(campo("Ciudad", cmbCiudad), campo("Tipo de usuario", cmbTipo), campo("Estatus", cmbEstatus))
         );
 
         cmbRol.getItems().addAll("Administrador","Cajero");
@@ -81,11 +81,11 @@ public class UserDialog extends Dialog<Boolean> {
         cmbRol.setStyle(UiStyles.CAMPO);
 
         sectionSistema = seccion("INFORMACIÓN DE SISTEMA",
-                row3(campo("User", txtUsername), campo("Contraseña", txtPass), campo("Rol", cmbRol))
+                row3(campo("Usuario", txtUsername), campo("Contraseña", txtPass), campo("Rol", cmbRol))
         );
 
         cmbTipo.valueProperty().addListener((o, ov, nv) -> {
-            boolean emp = "Employee".equals(nv);
+            boolean emp = "Empleado".equals(nv);
             sectionSistema.setVisible(emp);
             sectionSistema.setManaged(emp);
         });
@@ -114,9 +114,6 @@ public class UserDialog extends Dialog<Boolean> {
             if (bt == btnGuardar) return save();
             return null;
         });
-        btnG.addEventFilter(javafx.event.ActionEvent.ACTION, e -> {
-            if (!save()) e.consume();
-        });
     }
 
     private void prellenar() {
@@ -127,7 +124,7 @@ public class UserDialog extends Dialog<Boolean> {
         txtCalle.setText(usuario.getStreet());
         txtNumero.setText(String.valueOf(usuario.getHouseNumber()));
         if (usuario.getCity() != null) cmbCiudad.setValue(usuario.getCity());
-        cmbTipo.setValue(usuario instanceof Employee ? "Employee" : "Cliente");
+        cmbTipo.setValue(usuario instanceof Employee ? "Empleado" : "Cliente");
         cmbEstatus.setValue(usuario.isActive() ? "Activo" : "Inactivo");
         if (usuario instanceof Employee emp) {
             txtUsername.setText(emp.getUsername());
@@ -142,7 +139,7 @@ public class UserDialog extends Dialog<Boolean> {
             new Alert(Alert.AlertType.WARNING, "Nombre y Apellidos son requeridos.").showAndWait();
             return false;
         }
-        boolean esEmp = "Employee".equals(cmbTipo.getValue());
+        boolean esEmp = "Empleado".equals(cmbTipo.getValue());
         if (esEmp) {
             if (txtUsername.getText().trim().isEmpty()) {
                 new Alert(Alert.AlertType.WARNING, "El nombre de usuario es requerido.").showAndWait();
@@ -150,6 +147,13 @@ public class UserDialog extends Dialog<Boolean> {
             }
             if (usuario == null && txtPass.getText().isEmpty()) {
                 new Alert(Alert.AlertType.WARNING, "La contraseña es requerida.").showAndWait();
+                return false;
+            }
+            String username = txtUsername.getText().trim();
+            boolean esNuevo = (usuario == null);
+            Integer excludeId = (usuario instanceof Employee emp && !esNuevo) ? emp.getId() : null;
+            if (ctrl.usernameExists(username, excludeId)) {
+                new Alert(Alert.AlertType.WARNING, "El nombre de usuario ya existe. Elija otro.").showAndWait();
                 return false;
             }
             Employee e = (usuario instanceof Employee emp) ? emp : new Employee(null, null, null);

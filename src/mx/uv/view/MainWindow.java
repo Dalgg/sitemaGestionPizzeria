@@ -53,7 +53,7 @@ public class MainWindow {
         if (empleado.getRole() == Role.ADMINISTRADOR) {
             nav.getChildren().add(tabBtn("⊞  Administración", () -> mostrar(new UserPanel(stage))));
             nav.getChildren().add(tabBtn("◉  Productos", () -> mostrar(new ProductPanel(stage))));
-            nav.getChildren().add(tabBtn("✅  Val. Inventory", () -> mostrar(new InventoryPanel(stage))));
+            nav.getChildren().add(tabBtn("✅  Inventario", () -> mostrar(new InventoryPanel(stage))));
         }
         nav.getChildren().add(tabBtn("☰  Pedidos", () -> mostrar(new OrderListPanel(stage, this::mostrar))));
         nav.getChildren().add(tabBtn("?  Ayuda", () -> mostrar(new AboutPanel(stage))));

@@ -3,6 +3,7 @@ package mx.uv.view;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -10,6 +11,8 @@ import javafx.stage.Stage;
 import mx.uv.controller.InventoryController;
 import mx.uv.controller.ProductController;
 import mx.uv.controller.SessionController;
+import mx.uv.model.Employee;
+import mx.uv.model.Role;
 import mx.uv.model.SaleProduct;
 
 import java.util.HashMap;
@@ -28,6 +31,11 @@ public class InventoryPanel extends VBox {
     public InventoryPanel(Stage owner) {
         this.owner = owner;
         setSpacing(16);
+        Employee current = SessionController.getInstance().getCurrentEmployee();
+        if (current == null || current.getRole() != Role.ADMINISTRADOR) {
+            mostrarAccesoDenegado();
+            return;
+        }
         construir();
         cargar();
     }
@@ -175,5 +183,16 @@ public class InventoryPanel extends VBox {
         int idEmp = SessionController.getInstance().getCurrentEmployee().getId();
         if (invCtrl.saveValidation(idEmp, cantidades))
             new Alert(Alert.AlertType.INFORMATION, "Validación guardada correctamente.").showAndWait();
+    }
+
+    private void mostrarAccesoDenegado() {
+        VBox denied = new VBox(20);
+        denied.setAlignment(Pos.CENTER);
+        denied.setPadding(new Insets(40));
+        Label lbl = new Label("⛔ Acceso restringido\nSolo administradores pueden gestionar usuarios.");
+        lbl.setStyle("-fx-font-size:16;-fx-text-fill:" + UiStyles.ROJO + ";-fx-alignment:center;");
+        lbl.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        denied.getChildren().add(lbl);
+        getChildren().add(denied);
     }
 }

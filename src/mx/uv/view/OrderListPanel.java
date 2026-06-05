@@ -9,6 +9,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import mx.uv.controller.OrderController;
+import mx.uv.controller.SessionController;
 import mx.uv.controller.UserService;
 import mx.uv.model.*;
 
@@ -37,6 +38,7 @@ public class OrderListPanel extends VBox {
         setSpacing(16);
         construir();
         search();
+
     }
 
     @SuppressWarnings("unchecked")
@@ -50,9 +52,12 @@ public class OrderListPanel extends VBox {
         Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
         Button btnExportar = UiStyles.botonSecundario("↓ Exportar CSV");
         btnExportar.setOnAction(e -> exportarCSV());
-        Button btnNuevo = UiStyles.botonPrimario("+ Nuevo Order");
+        Button btnNuevo = UiStyles.botonPrimario("+ Nueva orden");
         btnNuevo.setOnAction(e -> navigator.accept(new NewOrderPanel(owner, this::volverAPedidos)));
         header.getChildren().addAll(tituloBox, sp, btnExportar, btnNuevo);
+        if (SessionController.getInstance().getCurrentRole().equals(Role.CAJERO) ) {
+            btnExportar.setDisable(true);
+        }
 
         VBox cardFiltros = new VBox(12);
         cardFiltros.setStyle(UiStyles.CARD + "-fx-padding:16;");

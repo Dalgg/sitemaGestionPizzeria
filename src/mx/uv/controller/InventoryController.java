@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 
 public class InventoryController {
-    private final InventoryDao dao = new InventoryDaoImpl();
+    private final InventoryDaoImpl dao = new InventoryDao();
 
     public boolean saveValidation(int idEmpleado, Map<Integer, Integer> cantidades) {
         try {

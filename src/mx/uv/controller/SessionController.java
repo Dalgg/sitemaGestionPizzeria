@@ -1,7 +1,8 @@
 package mx.uv.controller;
 
-import mx.uv.dao.impl.EmployeeDaoImpl;
+import mx.uv.dao.EmployeeDao;
 import mx.uv.model.Employee;
+import mx.uv.model.Role;
 
 import java.sql.SQLException;
 
@@ -18,11 +19,15 @@ public class SessionController {
 
     public Employee authenticate(String username, String contrasenia) {
         try {
-            empleadoActual = new EmployeeDaoImpl().authenticate(username, contrasenia);
+            empleadoActual = new EmployeeDao().authenticate(username, contrasenia);
             return empleadoActual;
         } catch (SQLException e) {
             return null;
         }
+    }
+
+    public Role getCurrentRole() {
+        return empleadoActual != null ? empleadoActual.getRole() : null;
     }
 
     public Employee getCurrentEmployee() { return empleadoActual; }

@@ -51,7 +51,7 @@ public class NewOrderPanel extends VBox {
                 ";-fx-cursor:hand;-fx-font-size:13;");
         btnVolver.setOnAction(e -> onVolver.run());
         Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
-        Label chip = new Label("Modo Edición: Nuevo Order");
+        Label chip = new Label("Modo Edición: Nuevo pedido");
         chip.setStyle("-fx-background-color:#FEF3C7;-fx-text-fill:#92400E;" +
                 "-fx-background-radius:20;-fx-padding:4 12;-fx-font-size:11;-fx-font-weight:bold;");
         topBar.getChildren().addAll(btnVolver, sp, chip);
@@ -72,16 +72,23 @@ public class NewOrderPanel extends VBox {
         tituloRow.getChildren().addAll(ico, titLbl, spT, folioBox);
 
         Employee empActual = SessionController.getInstance().getCurrentEmployee();
+        if (empActual == null) {
+            new Alert(Alert.AlertType.ERROR, "No hay sesión activa. Reinicie sesión.").showAndWait();
+            onVolver.run();
+            return;
+        }
+        String nombreEmpleado = empActual.getFirstName() + " " + empActual.getLastName() + " (" + empActual.getRole() + ")";
+        Label cmpEmpleado = new Label(nombreEmpleado);
+        cmpEmpleado.setStyle("-fx-font-size:13; -fx-text-fill:" + UiStyles.TEXTO_DARK + ";" +
+                "-fx-border-color:" + UiStyles.GRIS_BORDE + ";-fx-border-radius:6;" +
+                "-fx-padding:8 12;-fx-background-color:white;-fx-background-radius:6;");
         cmbCliente.setMaxWidth(Double.MAX_VALUE);
         cmbCliente.setStyle(UiStyles.CAMPO);
         cmbCliente.setButtonCell(clienteCell()); cmbCliente.setCellFactory(l -> clienteCell());
-
-        Label cmpEmpleado = lbl(empActual.getFirstName() + " (" + empActual.getRole() + ")",
-                "-fx-font-size:13;-fx-border-color:" + UiStyles.GRIS_BORDE + ";" +
-                "-fx-border-radius:6;-fx-padding:8 12;-fx-background-color:white;-fx-background-radius:6;");
-        Label cmpFecha = lbl(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")),
-                "-fx-font-size:13;-fx-border-color:" + UiStyles.GRIS_BORDE + ";" +
-                "-fx-border-radius:6;-fx-padding:8 12;-fx-background-color:white;-fx-background-radius:6;");
+        Label cmpFecha = new Label(LocalDate.now().format(DateTimeFormatter.ofPattern("dd/MM/yyyy")));
+        cmpFecha.setStyle("-fx-font-size:13; -fx-text-fill:" + UiStyles.TEXTO_DARK + ";" +
+                "-fx-border-color:" + UiStyles.GRIS_BORDE + ";-fx-border-radius:6;" +
+                "-fx-padding:8 12;-fx-background-color:white;-fx-background-radius:6;");
 
         GridPane info = new GridPane();
         info.setHgap(16); info.setVgap(8);
@@ -103,7 +110,7 @@ public class NewOrderPanel extends VBox {
         VBox productosBox = new VBox(0, headerProd, filasBox);
         productosBox.setStyle("-fx-border-color:" + UiStyles.GRIS_BORDE + ";-fx-border-radius:6;");
 
-        Button btnAgregar = new Button("+ Agregar Product");
+        Button btnAgregar = new Button("+ Agregar producto");
         btnAgregar.setStyle("-fx-background-color:transparent;-fx-text-fill:" + UiStyles.ROJO +
                 ";-fx-border-color:" + UiStyles.ROJO + ";-fx-border-radius:6;" +
                 "-fx-padding:8 16;-fx-cursor:hand;-fx-font-weight:bold;");
@@ -301,4 +308,5 @@ public class NewOrderPanel extends VBox {
         c.setPercentWidth(33.3);
         return c;
     }
+
 }

@@ -9,6 +9,9 @@ import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import mx.uv.controller.ProductController;
+import mx.uv.controller.SessionController;
+import mx.uv.model.Employee;
+import mx.uv.model.Role;
 import mx.uv.model.SaleProduct;
 import mx.uv.util.CsvExporter;
 
@@ -25,11 +28,15 @@ public class ProductPanel extends VBox {
     public ProductPanel(Stage owner) {
         this.owner = owner;
         setSpacing(16);
+        Employee current = SessionController.getInstance().getCurrentEmployee();
+        if (current == null || current.getRole() != Role.ADMINISTRADOR) {
+            mostrarAccesoDenegado();
+            return;
+        }
         construir();
         cargar(null);
     }
 
-    @SuppressWarnings("unchecked")
     private void construir() {
 
         HBox topRow = new HBox();
@@ -43,7 +50,7 @@ public class ProductPanel extends VBox {
         tituloH.setAlignment(Pos.CENTER_LEFT);
 
         Region sp = new Region(); HBox.setHgrow(sp, Priority.ALWAYS);
-        Button btnNuevo = UiStyles.botonPrimario("+ Nuevo Product");
+        Button btnNuevo = UiStyles.botonPrimario("+ Nuevo Producto");
         btnNuevo.setOnAction(e -> nuevo());
         topRow.getChildren().addAll(tituloH, sp, btnNuevo);
 
@@ -173,5 +180,15 @@ public class ProductPanel extends VBox {
                     String.valueOf(p.getQuantity())));
         }
         CsvExporter.exportar(owner, "inventario_productos", encabezados, filas);
+    }
+    private void mostrarAccesoDenegado() {
+        VBox denied = new VBox(20);
+        denied.setAlignment(Pos.CENTER);
+        denied.setPadding(new Insets(40));
+        Label lbl = new Label("⛔ Acceso restringido\nSolo administradores pueden gestionar usuarios.");
+        lbl.setStyle("-fx-font-size:16;-fx-text-fill:" + UiStyles.ROJO + ";-fx-alignment:center;");
+        lbl.setTextAlignment(javafx.scene.text.TextAlignment.CENTER);
+        denied.getChildren().add(lbl);
+        getChildren().add(denied);
     }
 }

@@ -1,9 +1,9 @@
 package mx.uv.controller;
 
-import mx.uv.dao.UserDao;
 import mx.uv.dao.EmployeeDao;
-import mx.uv.dao.impl.EmployeeDaoImpl;
+import mx.uv.dao.UserDao;
 import mx.uv.dao.impl.UserDaoImpl;
+import mx.uv.dao.impl.EmployeeDaoImpl;
 import mx.uv.model.Employee;
 import mx.uv.model.User;
 
@@ -12,8 +12,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 public class UserService {
-    private final UserDao usuarioDAO = new UserDaoImpl();
-    private final EmployeeDao empleadoDAO = new EmployeeDaoImpl();
+    private final UserDaoImpl usuarioDAO = new UserDao();
+    private final EmployeeDao empleadoDAO = new EmployeeDao();
 
     public boolean saveCustomer(User u, boolean esNuevo) {
         try {
@@ -80,6 +80,15 @@ public class UserService {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "Error: " + e.getMessage()).showAndWait();
             return List.of();
+        }
+    }
+
+    public boolean usernameExists(String username, Integer excludeId) {
+        try {
+            return empleadoDAO.usernameExists(username, excludeId);
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 }

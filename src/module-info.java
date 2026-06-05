@@ -3,6 +3,7 @@ module sistemaGestionPizzeria {
     requires javafx.fxml;
     requires java.sql;
     requires java.desktop;
+    requires java.management;
 
     exports mx.uv;
 

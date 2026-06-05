@@ -24,10 +24,10 @@ public class AboutPanel extends VBox {
         titulo.getChildren().addAll(t, sub);
 
         String[][] integrantes = {
-            {"Diego Leon", "4° Semestre", "Ingeniería de Software", "Universidad Veracruzana"},
+            {"Diego León", "4° Semestre", "Ingeniería de Software", "Universidad Veracruzana"},
             {"Jorge Araujo", "4° Semestre", "Ingeniería de Software", "Universidad Veracruzana"},
             {"Valentin Benavidez", "4° Semestre", "Ingeniería de Software", "Universidad Veracruzana"},
-            {"Luis Jesus Guamán", "4° Semestre", "Ingeniería de Software", "Universidad Veracruzana"},
+            {"Luis Jesus Guzmán", "4° Semestre", "Ingeniería de Software", "Universidad Veracruzana"},
         };
 
         GridPane grid = new GridPane();
