@@ -22,7 +22,7 @@ public class UserDialog extends Dialog<Boolean> {
     private final TextField txtTelefono  = UiStyles.campo("Ingrese teléfono");
     private final TextField txtEmail     = UiStyles.campo("ingrese email");
     private final TextField txtCalle     = UiStyles.campo("Ingrese calle");
-    private final TextField txtNumero    = UiStyles.campo("Ingrese código");
+    private final TextField txtNumero = UiStyles.campo("Ingrese código");
     private final ComboBox<String> cmbCiudad = new ComboBox<>();
     private final ComboBox<String> cmbTipo   = new ComboBox<>();
     private final ComboBox<String> cmbEstatus = new ComboBox<>();

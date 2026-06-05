@@ -158,4 +158,26 @@ public class ProductDao implements mx.uv.dao.impl.ProductDaoImpl {
             return baos.toByteArray();
         } catch (IOException e) { return null; }
     }
+    public int getStock(int idProducto) throws SQLException {
+        String sql = "SELECT cantidad FROM productos WHERE id = ? AND activo = 1";
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, idProducto);
+            try (ResultSet rs = ps.executeQuery()) {
+                return rs.next() ? rs.getInt("cantidad") : 0;
+            }
+        }
+    }
+
+    public boolean updateStock(int idProducto, int cantidadADescontar) throws SQLException {
+        String sql = "UPDATE productos SET cantidad = cantidad - ? WHERE id = ? AND cantidad >= ?";
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement(sql)) {
+            ps.setInt(1, cantidadADescontar);
+            ps.setInt(2, idProducto);
+            ps.setInt(3, cantidadADescontar);
+            int rows = ps.executeUpdate();
+            return rows > 0; // true si se pudo descontar
+        }
+    }
 }

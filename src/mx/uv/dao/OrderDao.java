@@ -24,12 +24,30 @@ public class OrderDao implements mx.uv.dao.impl.OrderDaoImpl {
 
     @Override
     public void addItem(int idPedido, int idProducto, int cantidad, double precio) throws SQLException {
+        ProductDao productDao = new ProductDao();
+        int stock = productDao.getStock(idProducto);
+        int cantidadExistente = 0;
+        String sqlSelect = "SELECT cantidad FROM detalle_pedido WHERE id_pedido = ? AND id_producto = ?";
+        try (Connection con = Database.getConnection();
+             PreparedStatement ps = con.prepareStatement(sqlSelect)) {
+            ps.setInt(1, idPedido);
+            ps.setInt(2, idProducto);
+            try (ResultSet rs = ps.executeQuery()) {
+                if (rs.next()) cantidadExistente = rs.getInt("cantidad");
+            }
+        }
+        int nuevaCantidadTotal = cantidadExistente + cantidad;
+        if (nuevaCantidadTotal > stock) {
+            throw new SQLException("No hay suficiente stock. Disponible: " + stock + ", solicitado: " + nuevaCantidadTotal);
+        }
         String sql = "INSERT INTO detalle_pedido(id_pedido,id_producto,cantidad,precio_unitario) VALUES(?,?,?,?) " +
-                "ON DUPLICATE KEY UPDATE cantidad=cantidad+VALUES(cantidad)";
+                "ON DUPLICATE KEY UPDATE cantidad = cantidad + VALUES(cantidad)";
         try (Connection con = Database.getConnection();
              PreparedStatement ps = con.prepareStatement(sql)) {
-            ps.setInt(1, idPedido); ps.setInt(2, idProducto);
-            ps.setInt(3, cantidad); ps.setDouble(4, precio);
+            ps.setInt(1, idPedido);
+            ps.setInt(2, idProducto);
+            ps.setInt(3, cantidad);
+            ps.setDouble(4, precio);
             ps.executeUpdate();
         }
     }
